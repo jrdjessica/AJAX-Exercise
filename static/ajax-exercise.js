@@ -3,7 +3,7 @@
 // PART 1: SHOW A FORTUNE
 
 function showFortune(evt) {
-  // TODO: get the fortune and show it in the #fortune-text div
+
   fetch('/fortune')
     .then((response) => response.text())
     .then((serverData) => {
@@ -18,10 +18,19 @@ document.querySelector('#get-fortune-button').addEventListener('click', showFort
 function showWeather(evt) {
   evt.preventDefault();
 
+  // TODO: request weather with that URL and show the forecast in #weather-info
   const url = '/weather.json';
   const zipcode = document.querySelector('#zipcode-field').value;
+  let zipcode_user = zipcode;
+  const queryString = new URLSearchParams({ zipcode: zipcode }).toString();
+  let url_weather = `${url}?${queryString}`;
 
-  // TODO: request weather with that URL and show the forecast in #weather-info
+  fetch(url_weather)
+    .then((response) => response.json())
+    .then((serverData) => {
+      document.querySelector('#weather-info').innerHTML = serverData['forecast'];
+    });
+
 }
 
 document.querySelector('#weather-form').addEventListener('submit', showWeather);
@@ -31,6 +40,13 @@ document.querySelector('#weather-form').addEventListener('submit', showWeather);
 function orderMelons(evt) {
   evt.preventDefault();
 
+  // fetch(url, {
+  //   method: 'POST',
+  //   body: JSON.stringify(zipcode),
+  //   headers: {
+  //     'Content-Type': 'application/json',
+  //   },
+  // })
   // TODO: show the result message after your form
   // TODO: if the result code is ERROR, make it show up in red (see our CSS!)
 }
